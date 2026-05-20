@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>special ones</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #1a1a1a, #2f2f2f);
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 12px;
+            width: 250px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 20px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 10px;
+            background: #ff4d6d;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #ff3355;
+        }
+
+        #nameList {
+            margin-top: 30px;
+        }
+
+        .name {
+            background: rgba(255,255,255,0.1);
+            margin: 10px auto;
+            padding: 10px;
+            width: 300px;
+            border-radius: 10px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>special ones</h1>
+
+    <input type="text" id="nameInput" placeholder="enter a special ones name">
+    <button onclick="addName()">add</button>
+
+    <div id="nameList"></div>
+
+    <script>
+        // Load saved names
+        let names = JSON.parse(localStorage.getItem("specialNames")) || [];
+
+        const nameList = document.getElementById("nameList");
+
+        function displayNames() {
+            nameList.innerHTML = "";
+
+            names.forEach(name => {
+                const div = document.createElement("div");
+                div.className = "name";
+                div.textContent = name;
+                nameList.appendChild(div);
+            });
+        }
+
+        function addName() {
+            const input = document.getElementById("nameInput");
+            const name = input.value.trim();
+
+            if (name !== "") {
+                names.push(name);
+
+                // Save to browser storage
+                localStorage.setItem("specialNames", JSON.stringify(names));
+
+                displayNames();
+
+                input.value = "";
+            }
+        }
+
+        displayNames();
+    </script>
+
+</body>
+</html>

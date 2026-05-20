@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>special ones</title>
+
+    <style>
+        body {
+            background: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 50px;
+            text-transform: lowercase;
+        }
+
+        input {
+            padding: 10px;
+            width: 250px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            text-transform: lowercase;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            text-transform: lowercase;
+        }
+
+        .add-btn {
+            background: #ff4d6d;
+            color: white;
+        }
+
+        .rename-btn {
+            background: #ffaa00;
+            color: black;
+        }
+
+        .delete-btn {
+            background: #ff3333;
+            color: white;
+        }
+
+        .name-box {
+            background: #222;
+            margin: 15px auto;
+            padding: 15px;
+            width: 350px;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>special ones</h1>
+
+    <input type="text" id="nameInput" placeholder="enter a name">
+    <button class="add-btn" onclick="addName()">add</button>
+
+    <div id="nameList"></div>
+
+    <script>
+        let names = JSON.parse(localStorage.getItem("specialNames")) || [];
+
+        const nameList = document.getElementById("nameList");
+
+        function saveNames() {
+            localStorage.setItem("specialNames", JSON.stringify(names));
+        }
+
+        function displayNames() {
+            nameList.innerHTML = "";
+
+            names.forEach((name, index) => {
+                const box = document.createElement("div");
+                box.className = "name-box";
+
+                const text = document.createElement("div");
+                text.textContent = name.toLowerCase();
+                text.style.fontSize = "22px";
+                text.style.marginBottom = "10px";
+
+                const renameBtn = document.createElement("button");
+                renameBtn.textContent = "rename";
+                renameBtn.className = "rename-btn";
+
+                renameBtn.onclick = () => {
+                    const newName = prompt("rename the person:", name);
+
+                    if (newName && newName.trim() !== "") {
+                        names[index] = newName.toLowerCase();
+                        saveNames();
+                        displayNames();
+                    }
+                };
+
+                const deleteBtn = document.createElement("button");
+                deleteBtn.textContent = "delete";
+                deleteBtn.className = "delete-btn";
+
+                deleteBtn.onclick = () => {
+                    names.splice(index, 1);
+                    saveNames();
+                    displayNames();
+                };
+
+                box.appendChild(text);
+                box.appendChild(renameBtn);
+                box.appendChild(deleteBtn);
+
+                nameList.appendChild(box);
+            });
+        }
+
+        function addName() {
+            const input = document.getElementById("nameInput");
+            const name = input.value.trim().toLowerCase();
+
+            if (name !== "") {
+                names.push(name);
+                saveNames();
+                displayNames();
+                input.value = "";
+            }
+        }
+
+        displayNames();
+    </script>
+
+</body>
+</html>

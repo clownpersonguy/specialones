@@ -70,6 +70,16 @@
             width: 350px;
             border-radius: 15px;
         }
+
+        footer {
+            margin-top: 40px;
+            color: #888;
+            font-size: 14px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -80,6 +90,13 @@
     <button class="add-btn" onclick="addName()">add</button>
 
     <div id="nameList"></div>
+
+    <footer>
+        <p>
+            special ones is a simple website where users can save,
+            rename, and delete names directly in their browser.
+        </p>
+    </footer>
 
     <script>
         let names = JSON.parse(localStorage.getItem("specialNames")) || [];
